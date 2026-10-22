@@ -1,5 +1,6 @@
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import API_URL from '../../config/api';
-
+import axios from 'axios';
 // Configure Axios globally for HTTP-Only Cookie tunneling
 axios.defaults.withCredentials = true;
 

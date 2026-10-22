@@ -1,3 +1,5 @@
+import dns from "node:dns";
+dns.setServers(["8.8.8.8", "1.1.1.1"]);
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';

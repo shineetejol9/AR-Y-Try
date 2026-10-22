@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { ArrowLeft, ShoppingCart, Loader, Camera, Info, Settings, Share2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -6,6 +6,22 @@ import { addToCart } from '../store/slices/cartSlice';
 import ARCamera from '../components/ar/ARCamera';
 import ProductSwitcher from '../components/ar/ProductSwitcher';
 import { formatPrice } from '../utils/currency';
+
+const productImages = import.meta.glob('../assets/products/{fashion,eyewear,jewelry}/{1,2,3,4,5,6,7,8}.png', {
+  eager: true,
+  query: '?url',
+  import: 'default'
+});
+const beautyImages = import.meta.glob('../assets/products/beauty/shade_*.png', {
+  eager: true,
+  query: '?url',
+  import: 'default'
+});
+
+const productImage = (category, filename) => {
+  const images = category === 'beauty' ? beautyImages : productImages;
+  return images[`../assets/products/${category}/${filename}`];
+};
 
 const TryOn = () => {
   const navigate = useNavigate();
@@ -22,49 +38,49 @@ const TryOn = () => {
     { id: 'beauty', label: 'Beauty', icon: '💄' }
   ];
 
-  const productData = {
+  const productData = useMemo(() => ({
     fashion: [
-      { id: 4, name: 'Premium Classic Shirt', price: '4799', image: '/src/assets/products/fashion/1.png' },
-      { id: 5, name: 'Signature Navy T-Shirt', price: '14399', image: '/src/assets/products/fashion/2.png' },
-      { id: 6, name: 'Modern Fit T-Shirt', price: '10399', image: '/src/assets/products/fashion/3.png' },
-      { id: 41, name: 'Midnight Essential', price: '5299', image: '/src/assets/products/fashion/4.png' },
-      { id: 42, name: 'Arctic White Tee', price: '3499', image: '/src/assets/products/fashion/5.png' },
-      { id: 43, name: 'Street Style Tee', price: '4999', image: '/src/assets/products/fashion/6.png' },
-      { id: 44, name: 'Urban Graphic Shirt', price: '5799', image: '/src/assets/products/fashion/7.png' },
-      { id: 45, name: 'Bold Print Tee', price: '4299', image: '/src/assets/products/fashion/8.png' },
+      { id: 4, name: 'Premium Classic Shirt', price: '4799', image: productImage('fashion', '1.png') },
+      { id: 5, name: 'Signature Navy T-Shirt', price: '14399', image: productImage('fashion', '2.png') },
+      { id: 6, name: 'Modern Fit T-Shirt', price: '10399', image: productImage('fashion', '3.png') },
+      { id: 41, name: 'Midnight Essential', price: '5299', image: productImage('fashion', '4.png') },
+      { id: 42, name: 'Arctic White Tee', price: '3499', image: productImage('fashion', '5.png') },
+      { id: 43, name: 'Street Style Tee', price: '4999', image: productImage('fashion', '6.png') },
+      { id: 44, name: 'Urban Graphic Shirt', price: '5799', image: productImage('fashion', '7.png') },
+      { id: 45, name: 'Bold Print Tee', price: '4299', image: productImage('fashion', '8.png') },
     ],
     eyewear: [
-      { id: 1, name: 'Aviator Stealth', price: '11999', image: '/src/assets/products/eyewear/1.png' },
-      { id: 2, name: 'Urban Wayfarer', price: '7199', image: '/src/assets/products/eyewear/2.png' },
-      { id: 3, name: 'Gold Rim Lux', price: '15999', image: '/src/assets/products/eyewear/3.png' },
-      { id: 31, name: 'Cyber Shield', price: '18999', image: '/src/assets/products/eyewear/1.png' },
-      { id: 32, name: 'Retro Round', price: '9499', image: '/src/assets/products/eyewear/2.png' },
+      { id: 1, name: 'Aviator Stealth', price: '11999', image: productImage('eyewear', '1.png') },
+      { id: 2, name: 'Urban Wayfarer', price: '7199', image: productImage('eyewear', '2.png') },
+      { id: 3, name: 'Gold Rim Lux', price: '15999', image: productImage('eyewear', '3.png') },
+      { id: 31, name: 'Cyber Shield', price: '18999', image: productImage('eyewear', '1.png') },
+      { id: 32, name: 'Retro Round', price: '9499', image: productImage('eyewear', '2.png') },
     ],
     jewelry: [
-      { id: 7, name: 'Diamond Pendant', price: '24999', image: '/src/assets/products/jewelry/1.png' },
-      { id: 8, name: 'Gold Pendant', price: '18999', image: '/src/assets/products/jewelry/2.png' },
-      { id: 71, name: 'Silver Pendant', price: '12999', image: '/src/assets/products/jewelry/3.png' },
-      { id: 72, name: 'Rose Gold Pendant', price: '21499', image: '/src/assets/products/jewelry/1.png' },
-      { id: 73, name: 'Crystal Pendant', price: '16999', image: '/src/assets/products/jewelry/4.png' },
+      { id: 7, name: 'Diamond Pendant', price: '24999', image: productImage('jewelry', '1.png') },
+      { id: 8, name: 'Gold Pendant', price: '18999', image: productImage('jewelry', '2.png') },
+      { id: 71, name: 'Silver Pendant', price: '12999', image: productImage('jewelry', '3.png') },
+      { id: 72, name: 'Rose Gold Pendant', price: '21499', image: productImage('jewelry', '1.png') },
+      { id: 73, name: 'Crystal Pendant', price: '16999', image: productImage('jewelry', '4.png') },
     ],
     beauty: [
-      { id: 101, name: 'Nude Silk', price: '2499', image: '/src/assets/products/beauty/shade_nude.png', color: { r: 188, g: 130, b: 110 } },
-      { id: 102, name: 'Mauve Mist', price: '2699', image: '/src/assets/products/beauty/shade_mauve.png', color: { r: 150, g: 70, b: 120 } },
-      { id: 103, name: 'Deep Plum', price: '2899', image: '/src/assets/products/beauty/shade_plum.png', color: { r: 80, g: 0, b: 50 } },
-      { id: 104, name: 'Sunset Coral', price: '2499', image: '/src/assets/products/beauty/shade_coral.png', color: { r: 255, g: 80, b: 60 } },
-      { id: 105, name: 'Ruby Rush', price: '2999', image: '/src/assets/products/beauty/shade_ruby.png', color: { r: 180, g: 0, b: 0 } },
-      { id: 106, name: 'Petal Pink', price: '2499', image: '/src/assets/products/beauty/shade_nude.png', color: { r: 230, g: 140, b: 160 } },
-      { id: 107, name: 'Vintage Rose', price: '2499', image: '/src/assets/products/beauty/shade_nude.png', color: { r: 160, g: 70, b: 80 } },
-      { id: 108, name: 'Cocoa Glaze', price: '2499', image: '/src/assets/products/beauty/shade_nude.png', color: { r: 90, g: 50, b: 40 } },
-      { id: 109, name: 'Berry Bliss', price: '2499', image: '/src/assets/products/beauty/shade_nude.png', color: { r: 120, g: 0, b: 30 } },
-      { id: 110, name: 'Honey Beige', price: '2499', image: '/src/assets/products/beauty/shade_nude.png', color: { r: 200, g: 150, b: 120 } },
-      { id: 111, name: 'Electric Red', price: '2499', image: '/src/assets/products/beauty/shade_ruby.png', color: { r: 255, g: 0, b: 0 } },
-      { id: 112, name: 'Soft Peach', price: '2499', image: '/src/assets/products/beauty/shade_nude.png', color: { r: 255, g: 180, b: 150 } },
-      { id: 113, name: 'Wine Deep', price: '2499', image: '/src/assets/products/beauty/shade_nude.png', color: { r: 100, g: 10, b: 10 } },
-      { id: 114, name: 'Candy Fuchsia', price: '2499', image: '/src/assets/products/beauty/shade_nude.png', color: { r: 210, g: 20, b: 140 } },
-      { id: 115, name: 'Burnt Sienna', price: '2499', image: '/src/assets/products/beauty/shade_nude.png', color: { r: 140, g: 60, b: 40 } }
+      { id: 101, name: 'Nude Silk', price: '2499', image: productImage('beauty', 'shade_nude.png'), color: { r: 188, g: 130, b: 110 } },
+      { id: 102, name: 'Mauve Mist', price: '2699', image: productImage('beauty', 'shade_mauve.png'), color: { r: 150, g: 70, b: 120 } },
+      { id: 103, name: 'Deep Plum', price: '2899', image: productImage('beauty', 'shade_plum.png'), color: { r: 80, g: 0, b: 50 } },
+      { id: 104, name: 'Sunset Coral', price: '2499', image: productImage('beauty', 'shade_coral.png'), color: { r: 255, g: 80, b: 60 } },
+      { id: 105, name: 'Ruby Rush', price: '2999', image: productImage('beauty', 'shade_ruby.png'), color: { r: 180, g: 0, b: 0 } },
+      { id: 106, name: 'Petal Pink', price: '2499', image: productImage('beauty', 'shade_nude.png'), color: { r: 230, g: 140, b: 160 } },
+      { id: 107, name: 'Vintage Rose', price: '2499', image: productImage('beauty', 'shade_nude.png'), color: { r: 160, g: 70, b: 80 } },
+      { id: 108, name: 'Cocoa Glaze', price: '2499', image: productImage('beauty', 'shade_nude.png'), color: { r: 90, g: 50, b: 40 } },
+      { id: 109, name: 'Berry Bliss', price: '2499', image: productImage('beauty', 'shade_nude.png'), color: { r: 120, g: 0, b: 30 } },
+      { id: 110, name: 'Honey Beige', price: '2499', image: productImage('beauty', 'shade_nude.png'), color: { r: 200, g: 150, b: 120 } },
+      { id: 111, name: 'Electric Red', price: '2499', image: productImage('beauty', 'shade_ruby.png'), color: { r: 255, g: 0, b: 0 } },
+      { id: 112, name: 'Soft Peach', price: '2499', image: productImage('beauty', 'shade_nude.png'), color: { r: 255, g: 180, b: 150 } },
+      { id: 113, name: 'Wine Deep', price: '2499', image: productImage('beauty', 'shade_nude.png'), color: { r: 100, g: 10, b: 10 } },
+      { id: 114, name: 'Candy Fuchsia', price: '2499', image: productImage('beauty', 'shade_nude.png'), color: { r: 210, g: 20, b: 140 } },
+      { id: 115, name: 'Burnt Sienna', price: '2499', image: productImage('beauty', 'shade_nude.png'), color: { r: 140, g: 60, b: 40 } }
     ]
-  };
+  }), []);
 
   const currentCategoryProducts = productData[activeCategory] || [];
   const activeProduct = currentCategoryProducts[currentProductIndex] || currentCategoryProducts[0];
@@ -102,7 +118,7 @@ const TryOn = () => {
       
       {/* AR Viewport */}
       <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-        <ARCamera currentProduct={activeProduct} />
+        <ARCamera currentProduct={activeProduct} category={activeCategory} />
         
         {/* Mirror Header */}
         <div style={{ position: 'absolute', top: '40px', left: '50%', transform: 'translateX(-50%)', textAlign: 'center', pointerEvents: 'none' }}>
@@ -217,4 +233,3 @@ const TryOn = () => {
 };
 
 export default TryOn;
-
