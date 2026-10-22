@@ -1,6 +1,6 @@
-<<<<<<< HEAD
+
 <div align="center">
-Deployed link -> https://ar-y-try-w1jg.vercel.app/
+
  
  # ✦ AR-Y-Try — Next-Gen Spatial E-Commerce
  
@@ -15,6 +15,7 @@ Deployed link -> https://ar-y-try-w1jg.vercel.app/
  <br/>
  
  **Redefining digital fashion through spatial computing, fluid aesthetics, and Generative AI.**
+ Deployed link -> https://ar-y-try-w1jg.vercel.app/
  
  AR-Y-Try is an industry-grade, highly interactive "Cyber-Premium" e-commerce application. It seamlessly blends a robust, security-first Node.js backend with an immersive React 3D frontend experience, natively connected to a downloadable AI-powered Chrome Extension for Virtual Try-Ons and a live Python MediaPipe AR server.
  
@@ -98,4 +99,3 @@ Deployed link -> https://ar-y-try-w1jg.vercel.app/
  </div>
 =======
 # AR-Y-Try
->>>>>>> b366a8e00de92405ce4f043c064eb25ee39bb1ca
