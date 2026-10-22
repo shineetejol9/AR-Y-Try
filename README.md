@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div align="center">
  
  # ✦ AR-Y-Try — Next-Gen Spatial E-Commerce
@@ -94,3 +95,6 @@
  <div align="center">
    <p>Built with precision and spatial awareness.</p>
  </div>
+=======
+# AR-Y-Try
+>>>>>>> b366a8e00de92405ce4f043c064eb25ee39bb1ca
