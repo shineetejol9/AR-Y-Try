@@ -96,7 +96,6 @@
   Deployed link -> https://ar-y-try-w1jg.vercel.app/
  
  <div align="center">
-   <p>Built with precision and spatial awareness.</p>
+   <p>Built with precision and spatial awareness. By Team</p>
  </div>
 =======
-# AR-Y-Try
